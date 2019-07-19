@@ -177,7 +177,7 @@ function getPayPalOptions(
       color: 'blue',
       size: 'responsive',
       label: 'pay',
-      layout: 'horizontal',
+      layout: 'vertical',
       fundingicons: false,
     },
 
@@ -201,9 +201,6 @@ function getPayPalOptions(
 
     },
 
-    funding: {
-      disallowed: [window.paypal.FUNDING.CREDIT],
-    },
 
     onClick,
 
