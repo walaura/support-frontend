@@ -110,7 +110,6 @@ const setupSubscriptionPayPalPayment = (
     storage.setSession('selectedPaymentMethod', PayPal);
     const requestBody = {
       amount,
-      billingPeriod,
       currency,
     };
 
