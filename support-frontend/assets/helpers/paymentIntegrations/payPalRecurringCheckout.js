@@ -103,7 +103,6 @@ const setupSubscriptionPayPalPayment = (
   currency: IsoCurrency,
   csrf: CsrfState,
   amount: number,
-  billingPeriod: BillingPeriod,
 ) =>
   (): void => {
     const csrfToken = csrf.token;
