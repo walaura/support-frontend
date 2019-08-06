@@ -43,6 +43,7 @@ export type Action =
   | { type: 'SET_FORM_SUBMITTED', formSubmitted: boolean }
   | { type: 'SET_BILLING_ADDRESS_IS_SAME', isSame: Option<boolean> }
   | { type: 'SET_ORDER_IS_GIFT', orderIsAGift: Option<boolean>}
+  | { type: 'SET_PROMO_CODE', promoCode: string }
   | AddressAction
   | PayPalAction
   | DDAction;
@@ -113,6 +114,7 @@ const formActionCreators = {
     type: 'SET_ORDER_IS_GIFT',
     orderIsAGift,
   }),
+  setPromoCode: (promoCode: string): Action => ({ type: 'SET_PROMO_CODE', promoCode }),
 };
 
 export type FormActionCreators = typeof formActionCreators;

@@ -159,6 +159,8 @@ function CheckoutForm(props: PropTypes) {
           )}
           billingPeriod={props.billingPeriod}
           product={props.product}
+          promoCode={props.promoCode}
+          setPromoCode={props.setPromoCode}
         />)}
       >
         <Form onSubmit={(ev) => {

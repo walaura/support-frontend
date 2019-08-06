@@ -14,6 +14,10 @@ import typeof GridImageType from 'components/gridImage/gridImage';
 import { type GridImg } from 'components/gridImage/gridImage';
 import SvgDropdownArrowUp from './dropDownArrowUp.svg';
 import type { SubscriptionProduct } from 'helpers/subscriptions';
+import { withLabel } from 'hocs/withLabel';
+import { Input } from 'components/forms/input';
+import { addQueryParamsToURL } from 'helpers/url';
+import Button from 'components/button/button';
 
 // Types
 
@@ -32,6 +36,8 @@ type PropTypes = {|
   title: string,
   // eslint-disable-next-line react/no-unused-prop-types
   product: SubscriptionProduct,
+  promoCode: ?string,
+  setPromoCode: Function,
 |};
 
 type StateTypes = {
@@ -39,6 +45,12 @@ type StateTypes = {
 }
 
 // Helpers
+
+const InputWithLabel = withLabel(Input);
+const applyPromo = (promoCode) => {
+  window.location.href = addQueryParamsToURL(window.location.href, { promoCode });
+};
+
 
 const DataList = (props: { dataList: DataListItem[] }) => (
   <div className={styles.dataList}>
@@ -113,6 +125,23 @@ const TabletAndDesktop = (props: PropTypes) => (
       {props.changeSubscription ?
         <ChangeSubscription route={props.changeSubscription} />
       : null }
+      <div>
+        <InputWithLabel
+          id="promo-code"
+          label="Promo code"
+          type="text"
+          value={props.promoCode}
+          setValue={props.setPromoCode}
+        />
+        <Button
+          type="button"
+          appearance="greyHollow"
+          icon={null}
+          onClick={() => applyPromo(props.promoCode)}
+        >
+          Apply promotion
+        </Button>
+      </div>
     </div>
   </span>
 );
@@ -203,7 +232,7 @@ export default class Summary extends Component<PropTypes, StateTypes> {
   static defaultProps = {
     changeSubscription: null,
     dataList: [],
-  }
+  };
 
   constructor(props: PropTypes) {
     super(props);
@@ -213,11 +242,11 @@ export default class Summary extends Component<PropTypes, StateTypes> {
     };
   }
 
-  getDeliveryMethod = () => this.props.dataList.filter(item => item.title === 'Delivery method').pop().value
+  getDeliveryMethod = () => this.props.dataList.filter(item => item.title === 'Delivery method').pop().value;
 
   toggleDetails = () => {
     this.setState({ showDropDown: !this.state.showDropDown });
-  }
+  };
 
   render() {
     const { product } = this.props;

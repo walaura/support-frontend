@@ -142,6 +142,8 @@ function CheckoutForm(props: PropTypes) {
           billingPeriod="Monthly"
           changeSubscription={routes.paperSubscriptionProductChoices}
           product={props.product}
+          promoCode={props.promoCode}
+          setPromoCode={props.setPromoCode}
         />
       )}
       >

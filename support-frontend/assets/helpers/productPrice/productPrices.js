@@ -117,8 +117,10 @@ function getProductPrice(
   SixWeekly ? Quarterly : billingPeriod][countryGroup.currency];
 }
 
+const getPromoCodeFromUrl = () => getQueryParameter('promoCode');
+
 const matchesQueryParam = promotion =>
-  getQueryParameter('promoCode') === promotion.promoCode;
+  getPromoCodeFromUrl() === promotion.promoCode;
 
 const introductoryPrice = promotion =>
   promotion.introductoryPrice !== null && promotion.introductoryPrice !==
@@ -203,6 +205,7 @@ function getCurrency(country: IsoCountry): IsoCurrency {
 
 export {
   getAppliedPromo,
+  getPromoCodeFromUrl,
   getProductPrice,
   getPromotion,
   finalPrice,

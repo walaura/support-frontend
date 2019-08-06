@@ -65,7 +65,10 @@ import { routes } from 'helpers/routes';
 import { BillingPeriodSelector } from 'components/subscriptionCheckouts/billingPeriodSelector';
 import { getWeeklyFulfilmentOption } from 'helpers/productPrice/fulfilmentOptions';
 import { CheckboxInput } from 'components/forms/customFields/checkbox';
-import { addressActionCreatorsFor, type SetCountryChangedAction } from 'components/subscriptionCheckouts/address/addressFieldsStore';
+import {
+  addressActionCreatorsFor,
+  type SetCountryChangedAction,
+} from 'components/subscriptionCheckouts/address/addressFieldsStore';
 import { type SetCountryAction } from 'helpers/page/commonActions';
 
 // ----- Types ----- //
@@ -157,6 +160,8 @@ function WeeklyCheckoutForm(props: PropTypes) {
           billingPeriod={props.billingPeriod}
           changeSubscription={routes.guardianWeeklySubscriptionLanding}
           product={props.product}
+          promoCode={props.promoCode}
+          setPromoCode={props.setPromoCode}
         />
       )}
       >

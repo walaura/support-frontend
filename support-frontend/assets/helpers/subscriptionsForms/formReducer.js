@@ -19,6 +19,7 @@ import {
 } from 'helpers/productPrice/fulfilmentOptions';
 import type { FormState } from 'helpers/subscriptionsForms/formFields';
 import type { Option } from 'helpers/types/option';
+import { getPromoCodeFromUrl } from 'helpers/productPrice/productPrices';
 
 function createFormReducer(
   initialCountry: IsoCountry,
@@ -56,6 +57,7 @@ function createFormReducer(
     fulfilmentOption: fulfilmentOption || NoFulfilmentOptions,
     payPalHasLoaded: false,
     orderIsAGift: false,
+    promoCode: getPromoCodeFromUrl() || null,
   };
 
   const getFulfilmentOption = (action, currentOption) =>
@@ -135,6 +137,9 @@ function createFormReducer(
 
       case 'SET_ORDER_IS_GIFT':
         return { ...state, orderIsAGift: action.orderIsAGift };
+
+      case 'SET_PROMO_CODE':
+        return { ...state, promoCode: action.promoCode };
 
       default:
         return state;
