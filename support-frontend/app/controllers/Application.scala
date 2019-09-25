@@ -8,7 +8,7 @@ import cats.implicits._
 import com.gu.i18n.CountryGroup
 import com.gu.i18n.CountryGroup._
 import com.gu.identity.model.{User => IdUser}
-import com.gu.support.config.{PayPalConfigProvider, Stage, Stages, StripeConfigProvider}
+import com.gu.support.config.{BraintreeConfigProvider, PayPalConfigProvider, Stage, Stages, StripeConfigProvider}
 import com.typesafe.scalalogging.StrictLogging
 import config.Configuration.GuardianDomain
 import config.StringsConfig
@@ -18,7 +18,7 @@ import com.gu.monitoring.SafeLogger._
 import lib.RedirectWithEncodedQueryString
 import models.GeoData
 import play.api.mvc._
-import services.{IdentityService, MembersDataService, PaymentAPIService, PaymentApiEndpoints}
+import services.{IdentityService, MembersDataService, PaymentAPIService, PaymentApiEndpoints, PaymentProviderConfigs}
 import utils.BrowserCheck
 import utils.FastlyGEOIP._
 import views.{EmptyDiv, Preload}
@@ -30,6 +30,7 @@ class Application(
     val assets: AssetsResolver,
     identityService: IdentityService,
     components: ControllerComponents,
+    braintreeConfigProvider: BraintreeConfigProvider,
     oneOffStripeConfigProvider: StripeConfigProvider,
     regularStripeConfigProvider: StripeConfigProvider,
     payPalConfigProvider: PayPalConfigProvider,
@@ -144,12 +145,17 @@ class Application(
       js = js,
       css = css,
       description = stringsConfig.contributionsLandingDescription,
-      oneOffDefaultStripeConfig = oneOffStripeConfigProvider.get(false),
-      oneOffUatStripeConfig = oneOffStripeConfigProvider.get(true),
-      regularDefaultStripeConfig = regularStripeConfigProvider.get(false),
-      regularUatStripeConfig = regularStripeConfigProvider.get(true),
-      regularDefaultPayPalConfig = payPalConfigProvider.get(false),
-      regularUatPayPalConfig = payPalConfigProvider.get(true),
+      paymentProviderConfigs =
+        PaymentProviderConfigs(
+          braintreeConfigProvider.get(false),
+          braintreeConfigProvider.get(true),
+          oneOffStripeConfigProvider.get(false),
+          oneOffStripeConfigProvider.get(true),
+          regularStripeConfigProvider.get(false),
+          regularStripeConfigProvider.get(true),
+          payPalConfigProvider.get(false),
+          payPalConfigProvider.get(true)
+        ),
       paymentApiEndpoints =
         PaymentApiEndpoints(
           paymentAPIService.stripeExecutePaymentEndpoint,

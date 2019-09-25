@@ -12,7 +12,6 @@ import {
 } from '../../pages/contributions-landing/contributionsLandingActions';
 
 
-const clientToken = 'sandbox_hcjm93t6_tfkv8f9d3sjvg8gy';
 
 // ----- Functions ----- //
 

@@ -284,10 +284,6 @@ function withProps(props: PropTypes) {
           checkOtherAmount={checkAmount}
         />
       </div>
-      <BraintreeButton
-        setBraintreeHasLoaded={props.setBraintreeHasLoaded}
-        braintreeHasLoaded={props.braintreeHasLoaded}
-      />
       <StripePaymentRequestButtonContainer
         setStripeHasLoaded={props.setStripeV3HasLoaded}
         stripeHasLoaded={props.stripeV3HasLoaded}

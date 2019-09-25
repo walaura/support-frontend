@@ -38,6 +38,8 @@ class Configuration(config: TypesafeConfig) {
 
   lazy val regularStripeConfigProvider = new StripeConfigProvider(config, stage)
 
+  lazy val braintreeConfigProvider = new BraintreeConfigProvider(config, stage)
+
   lazy val oneOffStripeConfigProvider = new StripeConfigProvider(config, stage, "oneOffStripe")
 
   lazy val stepFunctionArn = StateMachineArn.fromString(config.getString("supportWorkers.arn")).get

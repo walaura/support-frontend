@@ -10,6 +10,7 @@ import io.circe.Decoder
 import io.circe.parser.decode
 import com.gu.monitoring.SafeLogger
 import cats.implicits._
+import com.gu.support.config.{BraintreeConfig, PayPalConfig, StripeConfig}
 import io.circe.generic.semiauto.deriveDecoder
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -33,6 +34,17 @@ object PaymentAPIResponseError {
   case class ExecuteError(error: Throwable) extends PaymentAPIResponseError[Nothing]
   case class APIError[A](error: A) extends PaymentAPIResponseError[A]
 }
+
+case class PaymentProviderConfigs(
+  braintreeDefaultConfig: BraintreeConfig,
+  braintreeUatConfig: BraintreeConfig,
+  oneOffDefaultStripeConfig: StripeConfig,
+  oneOffUatStripeConfig: StripeConfig,
+  regularDefaultStripeConfig: StripeConfig,
+  regularUatStripeConfig: StripeConfig,
+  regularDefaultPayPalConfig: PayPalConfig,
+  regularUatPayPalConfig: PayPalConfig,
+)
 
 case class PaymentApiEndpoints(paymentApiStripeEndpoint: String, paymentApiPayPalEndpoint: String, paymentApiVenmoEndpoint: String)
 
