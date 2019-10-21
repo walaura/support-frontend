@@ -54,7 +54,7 @@ type SetPasswordData = {
   passwordError: boolean,
 }
 
-export type StripePaymentRequestButtonData = {
+type StripePaymentRequestButtonData = {
   paymentMethod: 'none' | StripePaymentMethod | null,
   stripePaymentRequestObject: Object | null,
   stripePaymentRequestButtonClicked: boolean,
@@ -83,10 +83,7 @@ type FormState = {
   isWaiting: boolean,
   formData: FormData,
   stripeV3HasLoaded: boolean,
-  stripePaymentRequestButtonData: {
-    ONE_OFF: StripePaymentRequestButtonData,
-    REGULAR: StripePaymentRequestButtonData,
-  },
+  stripePaymentRequestButtonData: StripePaymentRequestButtonData,
   stripeCardFormData: StripeCardFormData,
   setPasswordData: SetPasswordData,
   paymentComplete: boolean,
@@ -150,16 +147,9 @@ function createFormReducer() {
     },
     stripeV3HasLoaded: false,
     stripePaymentRequestButtonData: {
-      ONE_OFF: {
-        paymentMethod: null,
-        stripePaymentRequestObject: null,
-        stripePaymentRequestButtonClicked: false,
-      },
-      REGULAR: {
-        paymentMethod: null,
-        stripePaymentRequestObject: null,
-        stripePaymentRequestButtonClicked: false,
-      },
+      paymentMethod: null,
+      stripePaymentRequestObject: null,
+      stripePaymentRequestButtonClicked: false,
     },
     stripeCardFormData: {
       formComplete: false,
@@ -277,10 +267,7 @@ function createFormReducer() {
           ...state,
           stripePaymentRequestButtonData: {
             ...state.stripePaymentRequestButtonData,
-            [action.stripeAccount]: {
-              ...state.stripePaymentRequestButtonData[action.stripeAccount],
-              paymentMethod: action.paymentMethod,
-            },
+            paymentMethod: action.paymentMethod,
           },
         };
 
@@ -289,10 +276,7 @@ function createFormReducer() {
           ...state,
           stripePaymentRequestButtonData: {
             ...state.stripePaymentRequestButtonData,
-            [action.stripeAccount]: {
-              ...state.stripePaymentRequestButtonData[action.stripeAccount],
-              stripePaymentRequestObject: action.stripePaymentRequestObject,
-            },
+            stripePaymentRequestObject: action.stripePaymentRequestObject,
           },
         };
 
@@ -301,10 +285,7 @@ function createFormReducer() {
           ...state,
           stripePaymentRequestButtonData: {
             ...state.stripePaymentRequestButtonData,
-            [action.stripeAccount]: {
-              ...state.stripePaymentRequestButtonData[action.stripeAccount],
-              stripePaymentRequestButtonClicked: true,
-            },
+            stripePaymentRequestButtonClicked: true,
           },
         };
 

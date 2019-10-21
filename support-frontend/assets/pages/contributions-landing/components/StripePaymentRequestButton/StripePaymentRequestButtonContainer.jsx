@@ -7,11 +7,12 @@
 import React from 'react';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import type { IsoCurrency } from 'helpers/internationalisation/currency';
-import { getStripeKey, stripeAccountForContributionType } from 'helpers/paymentIntegrations/stripeCheckout';
+import { getStripeKey } from 'helpers/paymentIntegrations/stripeCheckout';
 import type { ContributionType, OtherAmounts, SelectedAmounts } from 'helpers/contributions';
 import { getAmount } from 'helpers/contributions';
 import { isInStripePaymentRequestAllowedCountries } from 'helpers/internationalisation/country';
 import type { IsoCountry } from 'helpers/internationalisation/country';
+import { hiddenIf } from 'helpers/utilities';
 import { setupStripe } from 'helpers/stripe';
 import StripePaymentRequestButton from './StripePaymentRequestButton';
 
@@ -30,8 +31,6 @@ type PropTypes = {|
   otherAmounts: OtherAmounts,
 |};
 
-const enabledForRecurring = (): boolean => !!window.guardian.recurringStripePaymentRequestButton;
-
 // ----- Component ----- //
 
 class StripePaymentRequestButtonContainer extends React.Component<PropTypes, void> {
@@ -41,28 +40,17 @@ class StripePaymentRequestButtonContainer extends React.Component<PropTypes, voi
   }
 
   render() {
-    const showStripePaymentRequestButton =
-      isInStripePaymentRequestAllowedCountries(this.props.country) &&
-      (this.props.contributionType === 'ONE_OFF' || enabledForRecurring());
+    const showStripePaymentRequestButton = isInStripePaymentRequestAllowedCountries(this.props.country);
 
     if (showStripePaymentRequestButton && this.props.stripeHasLoaded) {
-      const stripeAccount = stripeAccountForContributionType[this.props.contributionType];
-      const apiKey = getStripeKey(stripeAccount, this.props.country, this.props.isTestUser);
+      const key = getStripeKey('ONE_OFF', this.props.country, this.props.isTestUser);
       const amount = getAmount(this.props.selectedAmounts, this.props.otherAmounts, this.props.contributionType);
 
-      /**
-       * The `key` attribute is necessary here because you cannot modify the apiKey on StripeProvider.
-       * Instead, we must create separate instances for ONE_OFF and REGULAR.
-       *
-       * This means that e.g. switching from monthly to one-off would cause it to create a new ONE_OFF StripeProvider
-       * with new children. However, switching back to monthly/annual would not then re-create the REGULAR instance.
-       */
       return (
-        <div className="stripe-payment-request-button">
-          <StripeProvider apiKey={apiKey} key={stripeAccount}>
+        <div className={hiddenIf(this.props.contributionType !== 'ONE_OFF', 'stripe-payment-request-button')}>
+          <StripeProvider apiKey={key}>
             <Elements>
               <StripePaymentRequestButton
-                stripeAccount={stripeAccount}
                 amount={amount}
               />
             </Elements>
