@@ -65,9 +65,10 @@ export class PayPalExpressButton extends React.Component<PropTypes> {
       this.props.onPaymentAuthorisation(tokenToAuthorisation(token));
     };
 
+    console.log("rendering PayPalExpressButton")
     // This element contains an iframe which contains the actual button
     return React.createElement(
-      window.paypal.Button.driver('react', { React, ReactDOM }),
+      window.paypal.Buttons.driver('react', { React, ReactDOM }),
       getPayPalOptions(
         this.props.currencyId,
         this.props.csrf,
