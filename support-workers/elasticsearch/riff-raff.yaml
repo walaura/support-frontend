@@ -1,0 +1,7 @@
+stacks: [support]
+regions: [eu-west-1]
+deployments:
+  elasticsearch:
+    type: cloud-formation
+    parameters:
+      templatePath: cfn.yaml
