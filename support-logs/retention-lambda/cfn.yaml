@@ -38,6 +38,7 @@ Resources:
    Type: AWS::Serverless::Function
    Properties:
      FunctionName: !Sub ${App}-${Stage}
+     Description: Deletes old indices from support-logs.gutools.co.uk
      Events:
        Timer:
         Type: Schedule
