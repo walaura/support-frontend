@@ -90,7 +90,7 @@
     "redux-thunk": "^2.3.0",
     "seedrandom": "^2.4.3",
     "uuid": "^3.2.1",
-    "webpack-bundle-analyzer": "^3.6.0"
+    "webpack-bundle-analyzer": "^3.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
